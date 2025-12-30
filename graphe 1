@@ -1,0 +1,45 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Données
+data = {
+    "Date": [
+        "2015-01-01","2016-01-01","2017-01-01","2018-01-01","2019-01-01",
+        "2020-01-01","2021-01-01","2022-01-01","2023-01-01",
+        "2024-01-01","2025-01-01","2025-12-01"
+    ],
+    "BTC": [217, 365.5, 966.2, 10284, 3501, 9367, 33141, 38526, 23135, 42594, 10247, 87639],
+    "DXY": [94.8, 99.61, 99.51, 89.13, 95.58, 97.39, 90.58, 96.54, 102.1, 103.27, 108.37, 99.41],
+    "FFR": [0.13, 0.39, 1.00, 1.79, 2.16, 0.36, 0.08, 1.68, 5.03, 5.15, 4.23, 3.89]
+}
+
+df = pd.DataFrame(data)
+df["Date"] = pd.to_datetime(df["Date"])
+
+# Création du graphe
+fig, ax1 = plt.subplots(figsize=(11,6))
+
+# Axe 1 : BTC
+ax1.plot(df["Date"], df["BTC"], color="orange", marker="o", label="BTC ($)")
+ax1.set_ylabel("Prix du BTC (USD)", color="orange")
+ax1.tick_params(axis='y', labelcolor="orange")
+
+# Axe 2 : DXY
+ax2 = ax1.twinx()
+ax2.plot(df["Date"], df["DXY"], color="blue", marker="s", label="DXY")
+ax2.set_ylabel("Dollar Index (DXY)", color="blue")
+ax2.tick_params(axis='y', labelcolor="blue")
+
+# Axe 3 : FFR
+ax3 = ax1.twinx()
+ax3.spines.right.set_position(("outward", 60))
+ax3.plot(df["Date"], df["FFR"], color="green", marker="^", label="FFR (%)")
+ax3.set_ylabel("Taux d'intérêt FFR (%)", color="green")
+ax3.tick_params(axis='y', labelcolor="green")
+
+# Titre et grille
+plt.title("Analyse multivariables : BTC, DXY et taux d’intérêt")
+ax1.grid(True)
+
+plt.tight_layout()
+plt.show()
